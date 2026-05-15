@@ -1,0 +1,43 @@
+<launch>
+  <!-- ====== 一键导航: 仿真 + AMCL + move_base ====== -->
+  <!-- 用法: roslaunch oryxbot_description nav.launch                    -->
+  <!--       roslaunch oryxbot_description nav.launch map_name:=four_walls -->
+
+  <arg name="map_name" default="four_walls" />
+
+  <!-- 1. 仿真环境 + 机器人 + 机械臂 -->
+  <include file="$(find oryxbot_description)/launch/gazebo.launch" />
+
+  <!-- 2. 加载地图 -->
+  <node pkg="map_server" type="map_server" name="map_server"
+    args="$(find oryxbot_description)/maps/$(arg map_name).yaml" />
+
+  <!-- 3. AMCL 定位 -->
+  <node pkg="amcl" type="amcl" name="amcl" output="log">
+    <param name="base_frame" value="base_footprint" />
+    <param name="odom_frame" value="odom" />
+    <param name="global_frame" value="map" />
+    <param name="laser_model_type" value="likelihood_field" />
+    <param name="min_particles" value="200" />
+    <param name="max_particles" value="2000" />
+    <param name="update_min_d" value="0.2" />
+    <param name="update_min_a" value="0.2" />
+    <remap from="scan" to="/fuse_scan" />
+  </node>
+
+  <!-- 4. move_base 导航 -->
+  <node pkg="move_base" type="move_base" name="move_base" output="screen">
+    <rosparam file="$(find oryxbot_description)/config/nav/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find oryxbot_description)/config/nav/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find oryxbot_description)/config/nav/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find oryxbot_description)/config/nav/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find oryxbot_description)/config/nav/teb_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find oryxbot_description)/config/nav/move_base_params.yaml" command="load" />
+    <rosparam file="$(find oryxbot_description)/config/nav/navfn_params.yaml" command="load" />
+    <remap from="scan" to="/fuse_scan" />
+  </node>
+
+  <!-- 5. RViz -->
+  <node pkg="rviz" type="rviz" name="rviz" required="true"
+    args="-d $(find oryxbot_description)/rviz/map1.rviz" />
+</launch>

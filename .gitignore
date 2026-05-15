@@ -1,0 +1,14 @@
+build/
+devel/
+*.pyc
+__pycache__
+*.sage.py
+.rosinstall
+.catkin_workspace
+*.bag
+*.pcd
+*.avi
+*.mp4
+.DS_Store
+*.swp
+*~

@@ -1,0 +1,15 @@
+<launch>
+  <!-- ====== 绘制"马"字: 导航 + 轨迹绘制 ====== -->
+  <!-- 用法: roslaunch oryxbot_description draw_ma.launch -->
+
+  <arg name="map_name" default="four_walls" />
+
+  <!-- 1. 导航 (仿真 + 地图 + AMCL + move_base + RViz) -->
+  <include file="$(find oryxbot_description)/launch/nav.launch">
+    <arg name="map_name" value="$(arg map_name)" />
+  </include>
+
+  <!-- 2. 绘制马字节点 -->
+  <node pkg="oryxbot_description" type="draw_ma.py" name="draw_ma"
+    output="screen" />
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+  <!-- ====== 保存地图到 oryxbot_description/maps/ ====== -->
+  <!-- 用法: roslaunch oryxbot_description map_save.launch map_name:=four_walls -->
+
+  <arg name="map_name" default="four_walls" />
+  <arg name="map_dir" default="$(find oryxbot_description)/maps" />
+
+  <node pkg="map_server" type="map_saver" name="map_saver"
+    args="-f $(arg map_dir)/$(arg map_name)" />
+</launch>

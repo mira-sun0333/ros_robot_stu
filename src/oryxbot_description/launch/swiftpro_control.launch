@@ -1,0 +1,10 @@
+<launch>
+   <!-- call fk_swiftpro service-->
+  <node name="fk_swiftpro" pkg="oryxbot_description" type="fk_swiftpro"/>
+
+  <!-- call fk_swiftpro service-->
+  <node name="ik_swiftpro" pkg="oryxbot_description" type="ik_swiftpro" output="screen"/>
+
+  <!--  -->
+  <node name="pose_swiftpro" pkg="oryxbot_description" type="pose_swiftpro" output="screen"/>
+</launch>

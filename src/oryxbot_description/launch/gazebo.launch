@@ -1,0 +1,31 @@
+<launch>
+  <!-- ====== Gazebo 仿真 + 机器人 + 机械臂 (基础环境) ====== -->
+
+  <!-- 1. Gazebo 仿真环境 -->
+  <arg name="world_name" default="$(find oryxbot_description)/world/four_walls.world" />
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_name)" />
+  </include>
+
+  <!-- 2. 机器人模型 (底盘+机械臂) -->
+  <param name="robot_description"
+    command="$(find xacro)/xacro $(find oryxbot_description)/xacro/oryxbot.xacro sim:=1" />
+  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+    args="-param robot_description -urdf -model oryxbot" output="screen" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher"
+    type="robot_state_publisher" />
+
+  <!-- 3. 机械臂控制器 -->
+  <rosparam command="load" file="$(find oryxbot_description)/config/arm_controllers.yaml" />
+  <node name="arm_controller_spawner" pkg="controller_manager"
+    type="spawner" respawn="false" output="screen" ns="/swiftpro"
+    args="joint_state_controller joint1_position_controller joint2_position_controller
+          joint3_position_controller joint4_position_controller joint5_position_controller
+          joint6_position_controller joint7_position_controller joint8_position_controller
+          joint9_position_controller virtual_end_position_controller" />
+  <node name="arm_state_publisher" pkg="robot_state_publisher"
+    type="robot_state_publisher">
+    <remap from="joint_states" to="/swiftpro/joint_states" />
+  </node>
+  <include file="$(find oryxbot_description)/launch/swiftpro_control.launch" />
+</launch>

@@ -1,0 +1,33 @@
+max_obstacle_height: 0.80
+footprint: [[0.194, 0.175], [0.194, -0.175], [-0.194, -0.175], [-0.194, 0.175]]
+map_type: costmap
+
+obstacle_layer:
+  max_obstacle_height: 0.8
+  obstacle_range: 3.0
+  raytrace_range: 3.0
+  track_unknown_space: false
+  footprint_clearing_enabled: true
+  combination_method: 1
+  enabled: true
+  observation_sources: scan1
+  scan1:
+    data_type: LaserScan
+    topic: /fuse_scan
+    observation_persistence: 0
+    expected_update_rate: 0
+    marking: true
+    clearing: true
+    min_obstacle_height: 0.0
+    max_obstacle_height: 0.2
+    obstacle_range: 4.0
+    raytrace_range: 4.0
+    inf_is_valid: false
+
+inflation_layer:
+  enabled: true
+  cost_scaling_factor: 20.0
+  inflation_radius: 0.25
+
+static_layer:
+  enabled: true
