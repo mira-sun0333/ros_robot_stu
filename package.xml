@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ros_robot_stu</name>
+  <version>0.0.1</version>
+  <description>ROS turtlesim recording and playback demo</description>
+  <maintainer email="iammira@users.noreply.github.com">iammira</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>catkin</buildtool_depend>
+  <exec_depend>turtlesim</exec_depend>
+  <exec_depend>rosbag</exec_depend>
+</package>

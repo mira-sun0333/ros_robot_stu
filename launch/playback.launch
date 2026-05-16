@@ -1,0 +1,6 @@
+<launch>
+  <param name="/use_sim_time" value="true"/>
+  <node pkg="turtlesim" type="turtlesim_node" name="turtlesim" output="screen"/>
+  <node pkg="rosbag" type="play" name="bag_play"
+        args="play --clock $(find ros_robot_stu)/run.bag" output="screen"/>
+</launch>

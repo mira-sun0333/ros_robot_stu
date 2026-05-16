@@ -1,0 +1,6 @@
+*.bag.active
+*.bag.orig.active
+*.swp
+*.swo
+*~
+.bash_history

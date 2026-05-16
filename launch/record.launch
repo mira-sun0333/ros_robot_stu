@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="turtlesim" type="turtlesim_node" name="turtlesim" output="screen"/>
+  <node pkg="rosbag" type="record" name="bag_record" 
+        args="record -O run.bag /turtle1/cmd_vel /turtle1/pose" output="screen"/>
+</launch>
