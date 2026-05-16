@@ -104,6 +104,15 @@ roslaunch rospy_tutorials talker_listener.launch
 roslaunch roscpp_tutorials talker_listener.launch
 ```
 
+### 5. 验证 roscd 路径跳转
+
+```bash
+# roscd 跳转到 ros_tutorials 包路径
+roscd ros_tutorials
+pwd
+# 输出应为当前工作空间下的 ros_tutorials 源码路径
+```
+
 ## 开发路线
 
 - [ ] 路径跳转核心算法设计与实现
