@@ -1,41 +1,42 @@
-# ROS Robot Study - path_jump
+# Path Jump — ROS 路径跳转
 
-ROS（Robot Operating System）机器人学习项目，包含多个 Catkin 工作空间和 ROS 入门教程。
+基于 ROS（Robot Operating System）的路径跳转项目，实现机器人路径规划与跳转控制。
+
+## 项目概要
+
+本项目旨在研究和实现机器人在复杂环境中的**路径跳转（Path Jump）**能力——即机器人能够根据环境信息动态调整路径，实现智能避障和路径重规划。项目使用 ROS 作为通信框架，目前处于基础功能开发阶段。
 
 ## 项目结构
 
 ```
 path_jump/
-├── ws_A/                   # Catkin 工作空间 A — 基础工作空间
+├── ws_A/                   # Catkin 工作空间 A — 路径跳转核心开发空间
 │   └── src/
 │       └── CMakeLists.txt  # 顶层 CMake 配置
 │
-├── ws_B/                   # Catkin 工作空间 B — ROS 教程集合
+├── ws_B/                   # Catkin 工作空间 B — ROS 基础教程与仿真
 │   └── src/
-│       └── ros_tutorials/  # ROS 官方教程包
-│           ├── turtlesim/         # 小海龟仿真器（C++/Qt5）
+│       └── ros_tutorials/  # ROS 教程包（用于学习和验证基础功能）
+│           ├── turtlesim/         # 小海龟仿真器（C++/Qt5）— 路径跳转可视化验证
 │           │   ├── src/           # 核心源码
 │           │   ├── include/       # 头文件
-│           │   ├── tutorials/     # 示例程序
-│           │   ├── msg/           # 自定义消息
-│           │   ├── srv/           # 自定义服务
+│           │   ├── tutorials/     # 示例程序（键盘控制、路径绘制等）
+│           │   ├── msg/           # 自定义消息（Pose、Color）
+│           │   ├── srv/           # 自定义服务（Spawn、Kill、Teleport 等）
 │           │   ├── launch/        # 启动文件
 │           │   └── images/        # 图片资源
 │           │
 │           ├── rospy_tutorials/   # Python ROS 教程
-│           │   ├── 001_talker_listener/     # 发布者/订阅者
+│           │   ├── 001_talker_listener/     # 话题发布/订阅
 │           │   ├── 002_headers/             # 消息头
-│           │   ├── 003_listener_with_user_data/  # 用户数据回调
+│           │   ├── 003_listener_with_user_data/  # 回调用户数据
 │           │   ├── 004_listener_subscribe_notify/ # 订阅通知
 │           │   ├── 005_add_two_ints/        # 服务通信
 │           │   ├── 006_parameters/          # 参数服务器
 │           │   ├── 007_connection_header/   # 连接头
 │           │   ├── 008_on_shutdown/         # 关闭回调
 │           │   ├── 009_advanced_publish/    # 高级发布
-│           │   ├── 010_publish_pointcloud2/ # 点云发布
-│           │   ├── msg/                     # 自定义消息
-│           │   ├── srv/                     # 自定义服务
-│           │   └── test/                    # 测试文件
+│           │   └── 010_publish_pointcloud2/ # 点云发布
 │           │
 │           ├── roscpp_tutorials/  # C++ ROS 教程
 │           │   ├── talker/                   # 发布者
@@ -45,7 +46,6 @@ path_jump/
 │           │   ├── timers/                   # 定时器
 │           │   ├── parameters/               # 参数
 │           │   ├── listener_class/           # 类封装订阅者
-│           │   ├── babbler/                  # 多话题发布
 │           │   ├── time_api/                 # 时间 API
 │           │   └── ...                       # 更多教程
 │           │
@@ -56,17 +56,17 @@ path_jump/
 
 ## 环境要求
 
-- **操作系统**：Ubuntu 20.04+（或其他支持 ROS 的 Linux 发行版）
-- **ROS 版本**：ROS Noetic（或其他 ROS 1 发行版）
+- **操作系统**：Ubuntu 20.04+
+- **ROS 版本**：ROS Noetic（或兼容的 ROS 1 发行版）
 - **编译工具**：Catkin
 - **依赖库**：
   - Qt5（turtlesim 图形界面）
   - Boost（线程支持）
   - Python 3
 
-## 编译与运行
+## 快速开始
 
-### 1. 初始化工作空间
+### 1. 编译工作空间
 
 ```bash
 # 编译工作空间 A
@@ -81,21 +81,20 @@ catkin_make
 ### 2. 加载环境
 
 ```bash
-# 加载工作空间 B 的环境
 source ws_B/devel/setup.bash
 ```
 
-### 3. 运行 turtlesim 示例
+### 3. 运行 turtlesim 仿真（用于路径规划可视化验证）
 
 ```bash
 # 启动小海龟仿真器
 rosrun turtlesim turtlesim_node
 
-# 在另一个终端中，使用键盘控制小海龟
+# 键盘控制小海龟
 rosrun turtlesim turtle_teleop_key
 ```
 
-### 4. 运行 talker/listener 示例
+### 4. 测试话题通信
 
 ```bash
 # Python 版本
@@ -105,39 +104,14 @@ roslaunch rospy_tutorials talker_listener.launch
 roslaunch roscpp_tutorials talker_listener.launch
 ```
 
-## 主要功能
+## 开发路线
 
-### turtlesim
-经典的 ROS 入门仿真器，提供二维平面上的小海龟，支持：
-- 键盘/程序控制海龟移动
-- 多海龟生成与管理
-- 画笔功能（颜色、线宽）
-- 绝对/相对坐标移动
-
-### rospy_tutorials
-Python 语言 ROS 编程教程，涵盖：
-- 话题（Topic）发布与订阅
-- 服务（Service）客户端与服务器
-- 参数（Parameter）服务器
-- 消息头（Header）使用
-- 点云（PointCloud2）发布
-- 节点关闭回调
-
-### roscpp_tutorials
-C++ 语言 ROS 编程教程，涵盖：
-- 发布者/订阅者基本模式
-- 服务通信
-- 定时器与时间 API
-- 参数使用
-- 多线程回调
-- 自定义回调处理
-
-## 学习资源
-
-- [ROS 官方 Wiki](http://wiki.ros.org/)
-- [ROS 教程](http://wiki.ros.org/ROS/Tutorials)
-- [turtlesim 教程](http://wiki.ros.org/turtlesim)
+- [ ] 路径跳转核心算法设计与实现
+- [ ] 基于 turtlesim 的路径规划可视化
+- [ ] 多海龟协同路径跳转
+- [ ] 动态避障与路径重规划
+- [ ] ROS 服务端/客户端架构完善
 
 ## 许可证
 
-本项目遵循 BSD 许可证，与 ROS 官方教程保持一致。
+BSD License
