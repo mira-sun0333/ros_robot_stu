@@ -1,0 +1,25 @@
+# ROS build artifacts
+build/
+devel/
+install/
+logs/
+
+# Catkin
+catkin_generated/
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# C++ compiled
+*.o
+*.obj
+*.exe
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
