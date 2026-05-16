@@ -107,11 +107,94 @@ roslaunch roscpp_tutorials talker_listener.launch
 ### 5. 验证 roscd 路径跳转
 
 ```bash
-# roscd 跳转到 ros_tutorials 包路径
 roscd ros_tutorials
 pwd
-# 输出应为当前工作空间下的 ros_tutorials 源码路径
 ```
+
+## Path Jump 命令速查
+
+> 以下命令帮助你在 ROS 文件系统中快速"跳转"和"定位"。
+
+### 文件系统跳转（rospack / roscd / rosls / rosed）
+
+| 命令 | 说明 |
+|------|------|
+| `rospack find <pkg>` | 查找包的绝对路径 |
+| `rospack list` | 列出所有 ROS 包及其路径 |
+| `rospack depends <pkg>` | 查看包的依赖 |
+| `roscd <pkg>` | **跳转**到包目录 |
+| `roscd <pkg>/<subdir>` | 跳转到包的子目录 |
+| `roscd log` | 跳转到 ROS 日志目录 |
+| `rosls <pkg>` | 列出包内文件 |
+| `rosed <pkg> <file>` | 直接编辑包内文件（支持 Tab 补全） |
+
+### 节点跳转（rosnode）
+
+| 命令 | 说明 |
+|------|------|
+| `rosnode list` | 列出所有运行中的节点 |
+| `rosnode info <node>` | 查看节点详细信息 |
+| `rosnode ping <node>` | 测试节点连通性 |
+| `rosnode kill <node>` | 停止指定节点 |
+| `rosnode machine <host>` | 列出某主机上的节点 |
+
+### 话题跳转（rostopic）
+
+| 命令 | 说明 |
+|------|------|
+| `rostopic list` | 列出所有活跃话题 |
+| `rostopic info <topic>` | 查看话题类型和发布/订阅者 |
+| `rostopic echo <topic>` | 实时查看话题数据 |
+| `rostopic hz <topic>` | 查看话题发布频率 |
+| `rostopic type <topic>` | 查看话题消息类型 |
+| `rostopic pub <topic> <type> <data>` | 手动发布消息 |
+
+### 消息/服务跳转（rosmsg / rossrv）
+
+| 命令 | 说明 |
+|------|------|
+| `rosmsg show <type>` | 查看消息结构 |
+| `rosmsg list` | 列出所有消息类型 |
+| `rosmsg package <pkg>` | 列出某包的所有消息 |
+| `rossrv show <type>` | 查看服务结构 |
+| `rossrv list` | 列出所有服务类型 |
+| `rossrv package <pkg>` | 列出某包的所有服务 |
+
+### 服务调用（rosservice）
+
+| 命令 | 说明 |
+|------|------|
+| `rosservice list` | 列出所有活跃服务 |
+| `rosservice info <srv>` | 查看服务详情 |
+| `rosservice call <srv> <args>` | 调用服务 |
+| `rosservice type <srv>` | 查看服务类型 |
+
+### 参数跳转（rosparam）
+
+| 命令 | 说明 |
+|------|------|
+| `rosparam list` | 列出所有参数 |
+| `rosparam get <param>` | 获取参数值 |
+| `rosparam set <param> <value>` | 设置参数 |
+| `rosparam dump <file>` | 导出参数到 YAML 文件 |
+| `rosparam load <file>` | 从 YAML 文件加载参数 |
+
+### 运行与 Launch
+
+| 命令 | 说明 |
+|------|------|
+| `rosrun <pkg> <node>` | 运行包中的节点 |
+| `roslaunch <pkg> <file>` | 启动 launch 文件 |
+| `roslaunch --nodes <file>` | 预览 launch 文件会启动的节点 |
+
+### 可视化调试
+
+| 命令 | 说明 |
+|------|------|
+| `rqt_graph` | 查看节点-话题关系图 |
+| `rqt_plot <topic> <field>` | 实时绘制话题数据曲线 |
+| `rqt_console` | 查看日志信息 |
+| `rviz` | 3D 可视化工具 |
 
 ## 开发路线
 
