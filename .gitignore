@@ -1,0 +1,21 @@
+# Build
+build/
+devel/
+logs/
+*.pyc
+__pycache__/
+*.o
+*.so
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+
+# ROS
+catkin_ws/

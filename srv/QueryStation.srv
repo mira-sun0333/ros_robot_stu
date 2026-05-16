@@ -1,0 +1,6 @@
+# 请求：传入编号
+string station_id
+---
+# 响应：返回名称和位置
+string station_name
+string station_location
